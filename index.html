@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terbitkan Buku Anda di Amerta Media - Gratis, Mudah, Profesional</title>
     <!-- Chosen Palette: Amerta Media Brand (Blue, Gold, White) -->
-    <!-- Application Structure Plan: Long-form, direct-response landing page designed to convert visitors (aspiring authors) into leads. The structure follows a classic sales funnel: Hero (Attention) -> Problem (Agitation) -> Solution (Interest) -> Benefits (Desire) -> Process/Testimonials (Trust/Conviction) -> CTA/FAQ (Action). This is chosen over a dashboard/SPA as the goal is linear persuasion for advertising, mirroring the reference links. -->
-    <!-- Visualization & Content Choices: Report Info (Need Authors) -> Goal (Convert) -> Viz (Landing Page Sections) -> Interaction (Scroll, Read, Click CTA, Expand FAQ) -> Justification (Proven model for lead generation) -> Library/Method (HTML/Tailwind, <details> tag for FAQ, Vanilla JS for smooth scroll). No charts needed as it's not data-heavy, but content-persuasive. -->
+    <!-- Application Structure Plan: Long-form, direct-response landing page designed to convert visitors (aspiring authors) into leads. The structure follows a classic sales funnel: Hero (Attention) -> Problem (Agitation) -> Solution (Interest) -> Benefits (Desire) -> Package Pricing (Clarity/Comparison) -> Process/Testimonials (Trust/Conviction) -> CTA/FAQ (Action). This is chosen over a dashboard/SPA as the goal is linear persuasion for advertising, mirroring the reference links. -->
+    <!-- Visualization & Content Choices: Report Info (Need Authors, show packages) -> Goal (Convert) -> Viz (Pricing Table/Grid) -> Interaction (Scroll, Read, Click CTA) -> Justification (Present clear, tiered options to convert diverse author needs) -> Library/Method (HTML/Tailwind, Vanilla JS for smooth scroll). No charts needed as it's not data-heavy, but content-persuasive. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -23,6 +23,14 @@
         .cta-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .price-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .price-features {
+            flex-grow: 1;
         }
     </style>
 </head>
@@ -38,6 +46,7 @@
             </div>
             <div class="hidden md:flex items-center space-x-6">
                 <a href="#layanan" class="text-gray-600 hover:text-blue-800 font-medium">Layanan</a>
+                <a href="#paket" class="text-gray-600 hover:text-blue-800 font-medium">Paket Harga</a>
                 <a href="#testimoni" class="text-gray-600 hover:text-blue-800 font-medium">Testimoni</a>
                 <a href="#faq" class="text-gray-600 hover:text-blue-800 font-medium">FAQ</a>
                 <a href="#cta-final" class="cta-button bg-yellow-500 text-blue-900 font-bold py-2 px-5 rounded-full hover:bg-yellow-400">
@@ -45,14 +54,14 @@
                 </a>
             </div>
             <div class="md:hidden">
-                <a href="https://api.whatsapp.com/send/?phone=6281356333324&text=Hallo+Amerta+Media&type=phone_number&app_absent=0" class="cta-button bg-yellow-500 text-blue-900 font-bold py-2 px-5 rounded-full hover:bg-yellow-400 text-sm">
+                <a href="https://api.whatsapp.com/send?phone=628123456789&text=Halo%20Amerta%20Media,%20saya%20tertarik%20untuk%20menerbitkan%20buku." class="cta-button bg-yellow-500 text-blue-900 font-bold py-2 px-5 rounded-full hover:bg-yellow-400 text-sm">
                     Chat WA
                 </a>
             </div>
         </nav>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero Section (No Change) -->
     <section class="bg-blue-900 text-white pt-20 pb-24">
         <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
             <div class="flex flex-col space-y-6">
@@ -63,19 +72,19 @@
                     Kami bantu terbitkan naskah Anda menjadi buku berkualitas, ber-ISBN, dan dipasarkan secara profesional. Gratis, mudah, dan tanpa ribet.
                 </p>
                 <div class="pt-4">
-                    <a href="https://api.whatsapp.com/send/?phone=6281356333324&text=Hallo+Amerta+Media&type=phone_number&app_absent=0" target="_blank" class="cta-button inline-block bg-yellow-500 text-blue-900 font-bold text-lg py-4 px-10 rounded-full hover:bg-yellow-400 animate-pulse">
+                    <a href="https://api.whatsapp.com/send?phone=628123456789&text=Halo%20Amerta%20Media,%20saya%20tertarik%20untuk%20menerbitkan%20buku." target="_blank" class="cta-button inline-block bg-yellow-500 text-blue-900 font-bold text-lg py-4 px-10 rounded-full hover:bg-yellow-400 animate-pulse">
                         Konsultasi Gratis via WhatsApp
                     </a>
                     <p class="text-sm mt-3 text-blue-200">Klik di sini untuk ngobrol dengan tim kami.</p>
                 </div>
             </div>
             <div class="flex justify-center items-center">
-                <img src="https://placehold.co/400x500/FFFFFF/3B82F6?text=Buku+Anda+di+Sini" alt="Contoh Buku Terbit" class="rounded-lg shadow-2xl">
+                <img src="https://placehold.co/400x500/FFFFFF/3B82F6?text=Buku+Anda+di+Sini" onerror="this.onerror=null; this.src='https://placehold.co/400x500/FFFFFF/3B82F6?text=Buku+Anda';" alt="Contoh Buku Terbit" class="rounded-lg shadow-2xl">
             </div>
         </div>
     </section>
 
-    <!-- Problem Section -->
+    <!-- Problem Section (No Change) -->
     <section class="py-20 bg-gray-50">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold text-blue-900 mb-6">Punya Naskah Brilian, Tapi Bingung?</h2>
@@ -102,7 +111,7 @@
         </div>
     </section>
 
-    <!-- Solution Section -->
+    <!-- Solution Section (No Change) -->
     <section class="py-20 bg-blue-800 text-white">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold mb-6">Amerta Media Hadir Sebagai Solusi!</h2>
@@ -112,7 +121,7 @@
         </div>
     </section>
 
-    <!-- Benefits Section -->
+    <!-- Benefits Section (No Change) -->
     <section id="layanan" class="py-20 bg-white">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-blue-900 text-center mb-16">Kenapa Menerbitkan Buku di Amerta Media?</h2>
@@ -163,7 +172,139 @@
         </div>
     </section>
 
-    <!-- Process Section -->
+    <!-- Pricing/Package Section (NEW) -->
+    <section id="paket" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-extrabold text-blue-900 text-center mb-6">Pilih Paket Penerbitan Sesuai Kebutuhan Anda</h2>
+            <p class="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-12">
+                Kami menyediakan berbagai paket penerbitan untuk naskah akademik (Skripsi, Tesis, Disertasi, Hasil Penelitian) hingga Paket Ajar.
+            </p>
+
+            <div class="grid lg:grid-cols-3 gap-8 items-stretch max-w-6xl mx-auto">
+                
+                <!-- Paket Ajar (Highlight) -->
+                <div class="price-card bg-white p-8 rounded-xl shadow-xl border-4 border-yellow-500 transform scale-105">
+                    <p class="text-sm font-bold uppercase text-yellow-600 mb-2">Paling Populer</p>
+                    <h3 class="text-3xl font-black text-blue-900 mb-2">PAKET AJAR</h3>
+                    <p class="text-lg text-gray-500 mb-4">Untuk naskah siap terbit/modul pembelajaran.</p>
+                    <div class="text-5xl font-extrabold text-blue-800 mb-4">
+                        Rp 1.500.000,-
+                    </div>
+                    <p class="text-sm text-gray-500 mb-6">Maks. 250 Halaman. Estimasi Pengerjaan: 30 Hari Kerja.</p>
+                    
+                    <ul class="price-features space-y-3 mb-8 text-left text-gray-700">
+                        <li class="flex items-center space-x-2">
+                            <span class="text-green-500 font-bold text-xl">✓</span><span>Buku ber-ISBN Resmi</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <span class="text-green-500 font-bold text-xl">✓</span><span>Cover (Gratis 2x Revisi)</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <span class="text-green-500 font-bold text-xl">✓</span><span>Layout (Gratis 2x Revisi)</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <span class="text-green-500 font-bold text-xl">✓</span><span>E-Sertifikat Penulis</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <span class="text-green-500 font-bold text-xl">✓</span><span>Promosi di Web Penerbit</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <span class="text-green-500 font-bold text-xl">✓</span><span>Royalti Penjualan 10%*</span>
+                        </li>
+                    </ul>
+
+                    <a href="https://api.whatsapp.com/send?phone=628123456789&text=Halo%20Amerta%20Media,%20saya%20tertarik%20dengan%20Paket%20Ajar%20Rp%201.500.000." target="_blank" class="cta-button w-full text-center bg-yellow-500 text-blue-900 font-bold py-3 rounded-full hover:bg-yellow-400">
+                        Pilih Paket Ajar
+                    </a>
+                </div>
+
+                <!-- Kolom Paket Akademik (Skripsi, Tesis, Hasil Penelitian) -->
+                <div class="lg:col-span-2 grid md:grid-cols-2 gap-8">
+                    
+                    <!-- Paket Skripsi -->
+                    <div class="price-card bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+                        <h3 class="text-2xl font-black text-blue-900 mb-2">SKRIPSI Jadi Buku</h3>
+                        <p class="text-lg text-gray-500 mb-4">Untuk tugas akhir S1/setara.</p>
+                        <div class="text-4xl font-extrabold text-blue-800 mb-4">
+                            Rp 2.000.000,-
+                        </div>
+                        <p class="text-sm text-gray-500 mb-6">Maks. 200 Halaman. Estimasi Pengerjaan: 30 Hari Kerja.</p>
+                        
+                        <ul class="price-features space-y-3 mb-8 text-left text-gray-700">
+                            <li class="flex items-center space-x-2">
+                                <span class="text-green-500 font-bold text-xl">✓</span><span>Semua Fitur Paket Ajar</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-green-500 font-bold text-xl">✓</span><span>Konversi Format</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-green-500 font-bold text-xl">✓</span><span>Penambahan: Media & Video Promosi</span>
+                            </li>
+                        </ul>
+                        
+                        <a href="https://api.whatsapp.com/send?phone=628123456789&text=Halo%20Amerta%20Media,%20saya%20tertarik%20dengan%20Paket%20Skripsi%20Rp%202.000.000." target="_blank" class="cta-button w-full text-center bg-blue-500 text-white font-bold py-3 rounded-full hover:bg-blue-600">
+                            Pilih Paket Skripsi
+                        </a>
+                    </div>
+                    
+                    <!-- Paket Tesis/Hasil Penelitian (Digabung, Harga Sama) -->
+                    <div class="price-card bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+                        <h3 class="text-2xl font-black text-blue-900 mb-2">TESIS/HASIL PENELITIAN</h3>
+                        <p class="text-lg text-gray-500 mb-4">Untuk tugas akhir S2/setara atau hasil riset.</p>
+                        <div class="text-4xl font-extrabold text-blue-800 mb-4">
+                            Rp 2.500.000,-
+                        </div>
+                        <p class="text-sm text-gray-500 mb-6">Maks. 250 Halaman. Estimasi Pengerjaan: 30 Hari Kerja.</p>
+                        
+                        <ul class="price-features space-y-3 mb-8 text-left text-gray-700">
+                            <li class="flex items-center space-x-2">
+                                <span class="text-green-500 font-bold text-xl">✓</span><span>Semua Fitur Paket Skripsi</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-green-500 font-bold text-xl">✓</span><span>E-Book (Gratis)</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-green-500 font-bold text-xl">✓</span><span>Penambahan: 15 Buku Pertama</span>
+                            </li>
+                        </ul>
+                        
+                        <a href="https://api.whatsapp.com/send?phone=628123456789&text=Halo%20Amerta%20Media,%20saya%20tertarik%20dengan%20Paket%20Tesis/Riset%20Rp%202.500.000." target="_blank" class="cta-button w-full text-center bg-blue-500 text-white font-bold py-3 rounded-full hover:bg-blue-600">
+                            Pilih Paket Tesis
+                        </a>
+                    </div>
+
+                    <!-- Paket Disertasi (Di luar grid 3, agar mudah diatur) -->
+                    <div class="md:col-span-2 price-card bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+                        <h3 class="text-2xl font-black text-blue-900 mb-2">DISERTASI Jadi Buku</h3>
+                        <p class="text-lg text-gray-500 mb-4">Untuk tugas akhir S3/setara.</p>
+                        <div class="text-4xl font-extrabold text-blue-800 mb-4">
+                            Rp 3.000.000,-
+                        </div>
+                        <p class="text-sm text-gray-500 mb-6">Maks. 300 Halaman. Estimasi Pengerjaan: 30 Hari Kerja.</p>
+                        
+                        <ul class="price-features space-y-3 mb-8 text-left text-gray-700">
+                            <li class="flex items-center space-x-2">
+                                <span class="text-green-500 font-bold text-xl">✓</span><span>Semua Fitur Paket Tesis</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-green-500 font-bold text-xl">✓</span><span>Peningkatan Batas Halaman</span>
+                            </li>
+                        </ul>
+                        
+                        <a href="https://api.whatsapp.com/send?phone=628123456789&text=Halo%20Amerta%20Media,%20saya%20tertarik%20dengan%20Paket%20Disertasi%20Rp%203.000.000." target="_blank" class="cta-button w-full text-center bg-blue-500 text-white font-bold py-3 rounded-full hover:bg-blue-600">
+                            Pilih Paket Disertasi
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-center text-sm text-gray-500 mt-10">
+                *Catatan: Harga sudah termasuk layanan pracetak (editing, layout, desain cover). Harga belum termasuk ongkir, cetak warna, dan cetak halaman tambahan jika melebihi batas maksimal. Royalti 10% dari penjualan buku berlaku untuk penulis.
+            </p>
+        </div>
+    </section>
+
+    <!-- Process Section (No Change) -->
     <section class="py-20 bg-gray-50">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-blue-900 text-center mb-16">Proses Terbit Mudah dalam 4 Langkah</h2>
@@ -195,7 +336,7 @@
         </div>
     </section>
     
-    <!-- Testimonials Section -->
+    <!-- Testimonials Section (Moved) -->
     <section id="testimoni" class="py-20 bg-blue-900 text-white">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-16">Apa Kata Para Penulis Kami?</h2>
@@ -216,46 +357,37 @@
         </div>
     </section>
 
-    <!-- Book Gallery Section -->
+    <!-- Book Gallery Section (No Change) -->
     <section class="py-20 bg-white">
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-blue-900 text-center mb-16">Buku yang Telah Terbit Bersama Kami</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <img src="https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+1" alt="Buku Terbit 1" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                <img src="https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+2" alt="Buku Terbit 2" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                <img src="https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+3" alt="Buku Terbit 3" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                <img src="https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+4" alt="Buku Terbit 4" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                <img src="https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+1" onerror="this.onerror=null; this.src='https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+1';" alt="Buku Terbit 1" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                <img src="https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+2" onerror="this.onerror=null; this.src='https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+2';" alt="Buku Terbit 2" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                <img src="https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+3" onerror="this.onerror=null; this.src='https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+3';" alt="Buku Terbit 3" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                <img src="https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+4" onerror="this.onerror=null; this.src='https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+4';" alt="Buku Terbit 4" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
             </div>
         </div>
     </section>
 
-    <!-- Final CTA Section -->
+    <!-- Final CTA Section (No Change) -->
     <section id="cta-final" class="bg-yellow-500 py-20">
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-4xl font-extrabold text-blue-900 mb-6">Jangan Biarkan Naskah Anda Hanya Tersimpan di Laptop!</h2>
             <p class="text-lg text-blue-800 max-w-2xl mx-auto mb-10">
                 Tim kami siap membantu Anda. Ambil langkah pertama untuk menjadi penulis profesional sekarang juga.
             </p>
-            <a href="https://api.whatsapp.com/send/?phone=6281356333324&text=Hallo+Amerta+Media&type=phone_number&app_absent=0" target="_blank" class="cta-button inline-block bg-blue-900 text-white font-bold text-xl py-5 px-14 rounded-full hover:bg-blue-800">
+            <a href="https://api.whatsapp.com/send?phone=628123456789&text=Halo%20Amerta%20Media,%20saya%20siap%20menerbitkan%20buku%20saya!" target="_blank" class="cta-button inline-block bg-blue-900 text-white font-bold text-xl py-5 px-14 rounded-full hover:bg-blue-800">
                 Kirim Naskah Sekarang (via WA)
             </a>
         </div>
     </section>
 
-    <!-- FAQ Section -->
+    <!-- FAQ Section (No Change) -->
     <section id="faq" class="py-20 bg-white">
         <div class="container mx-auto px-6 max-w-3xl">
             <h2 class="text-3xl font-bold text-blue-900 text-center mb-16">Pertanyaan yang Sering Diajukan (FAQ)</h2>
             <div class="space-y-4">
-                <details class="group border rounded-lg p-4 cursor-pointer" open>
-                    <summary class="flex justify-between items-center font-semibold text-lg text-gray-800 group-hover:text-blue-800">
-                        Apakah benar-benar gratis?
-                        <span class="text-blue-800 group-open:rotate-180 transition-transform duration-300">▼</span>
-                    </summary>
-                    <div class="mt-4 text-gray-600">
-                        Benar. Untuk naskah yang lolos seleksi tim editor kami, semua biaya pracetak (editing, layout, desain cover) dan pengurusan ISBN ditanggung oleh Amerta Media. Anda tidak perlu membayar apapun.
-                    </div>
-                </details>
                 <details class="group border rounded-lg p-4 cursor-pointer">
                     <summary class="flex justify-between items-center font-semibold text-lg text-gray-800 group-hover:text-blue-800">
                         Berapa lama proses penerbitannya?
@@ -287,7 +419,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer (No Change) -->
     <footer class="bg-blue-900 text-white py-10">
         <div class="container mx-auto px-6 text-center">
             <p>&copy; 2025 Amerta Media. Hak Cipta Dilindungi.</p>
@@ -316,5 +448,4 @@
     </script>
 
 </body>
-
 </html>
