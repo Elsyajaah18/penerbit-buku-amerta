@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terbitkan Buku Anda di Amerta Media - Gratis, Mudah, Profesional</title>
-    <!-- Chosen Palette: Amerta Media Brand (Blue, Gold, White) -->
-    <!-- Application Structure Plan: Long-form, direct-response landing page designed to convert visitors (aspiring authors) into leads. The structure follows a classic sales funnel: Hero (Attention) -> Problem (Agitation) -> Solution (Interest) -> Benefits (Desire) -> Package Pricing (Clarity/Comparison) -> Process/Testimonials (Trust/Conviction) -> CTA/FAQ (Action). This is chosen over a dashboard/SPA as the goal is linear persuasion for advertising, mirroring the reference links. -->
-    <!-- Visualization & Content Choices: Report Info (Need Authors, show packages) -> Goal (Convert) -> Viz (Pricing Table/Grid) -> Interaction (Scroll, Read, Click CTA) -> Justification (Present clear, tiered options to convert diverse author needs) -> Library/Method (HTML/Tailwind, Vanilla JS for smooth scroll). No charts needed as it's not data-heavy, but content-persuasive. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Amerta Media Brand (Blue, Gold, White) --><!-- Application Structure Plan: Long-form, direct-response landing page designed to convert visitors (aspiring authors) into leads. The structure follows a classic sales funnel: Hero (Attention) -> Problem (Agitation) -> Solution (Interest) -> Benefits (Desire) -> Package Pricing (Clarity/Comparison) -> Gemini Tools (Value Add) -> Process/Testimonials (Trust/Conviction) -> CTA/FAQ (Action). This is chosen over a dashboard/SPA as the goal is linear persuasion for advertising, mirroring the reference links. --><!-- Visualization & Content Choices: Report Info (Need Authors, show packages, offer AI tools) -> Goal (Convert & Engage) -> Viz (Pricing Table/Grid, Interactive Text Generator, Enhanced Visuals/Animations) -> Interaction (Scroll, Read, Click CTA, Input text for LLM, Observe animations) -> Justification (Enhance user experience, draw attention to key elements, provide immediate, relevant utility to prospective authors using Gemini API) -> Library/Method (HTML/Tailwind, Vanilla JS, Intersection Observer API for animations, Gemini API integration). No charts needed. --><!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. --><script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
         }
         html {
             scroll-behavior: smooth;
@@ -21,23 +18,63 @@
             transition: all 0.3s ease;
         }
         .cta-button:hover {
-            transform: translateY(-2px);
+            transform: translateY(-2px) scale(1.02);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
         .price-card {
             display: flex;
             flex-direction: column;
             height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .price-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         .price-features {
             flex-grow: 1;
         }
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Animation classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .slide-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .slide-up.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+        .delay-400 { transition-delay: 0.4s; }
     </style>
 </head>
 <body class="bg-white text-gray-800">
 
-    <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
+    <!-- Header --><header class="bg-white shadow-sm sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div>
                 <a href="https://amertamedia.co.id/" class="text-2xl font-extrabold text-blue-900">
@@ -47,6 +84,7 @@
             <div class="hidden md:flex items-center space-x-6">
                 <a href="#layanan" class="text-gray-600 hover:text-blue-800 font-medium">Layanan</a>
                 <a href="#paket" class="text-gray-600 hover:text-blue-800 font-medium">Paket Harga</a>
+                <a href="#gemini-tools" class="text-gray-600 hover:text-blue-800 font-medium">Tools AI</a>
                 <a href="#testimoni" class="text-gray-600 hover:text-blue-800 font-medium">Testimoni</a>
                 <a href="#faq" class="text-gray-600 hover:text-blue-800 font-medium">FAQ</a>
                 <a href="#cta-final" class="cta-button bg-yellow-500 text-blue-900 font-bold py-2 px-5 rounded-full hover:bg-yellow-400">
@@ -54,17 +92,16 @@
                 </a>
             </div>
             <div class="md:hidden">
-                <a href="https://api.whatsapp.com/send/?phone=6281356333324&text=Halo%20Amerta%20Media,%20saya%20tertarik%20untuk%20menerbitkan%20buku." class="cta-button bg-yellow-500 text-blue-900 font-bold py-2 px-5 rounded-full hover:bg-yellow-400 text-sm">
+                <a href="https://api.whatsapp.com/send?phone=628123456789&text=Halo%20Amerta%20Media,%20saya%20tertarik%20untuk%20menerbitkan%20buku." class="cta-button bg-yellow-500 text-blue-900 font-bold py-2 px-5 rounded-full hover:bg-yellow-400 text-sm">
                     Chat WA
                 </a>
             </div>
         </nav>
     </header>
 
-    <!-- Hero Section (No Change) -->
-    <section class="bg-blue-900 text-white pt-20 pb-24">
+    <!-- Hero Section --><section class="bg-blue-900 text-white pt-20 pb-24">
         <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-            <div class="flex flex-col space-y-6">
+            <div class="flex flex-col space-y-6 fade-in">
                 <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
                     Wujudkan Impian Anda Menjadi Penulis Buku Best-Seller!
                 </h1>
@@ -78,31 +115,30 @@
                     <p class="text-sm mt-3 text-blue-200">Klik di sini untuk ngobrol dengan tim kami.</p>
                 </div>
             </div>
-            <div class="flex justify-center items-center">
-                <img src="https://placehold.co/400x500/FFFFFF/3B82F6?text=Buku+Anda+di+Sini" onerror="this.onerror=null; this.src='https://placehold.co/400x500/FFFFFF/3B82F6?text=Buku+Anda';" alt="Contoh Buku Terbit" class="rounded-lg shadow-2xl">
+            <div class="flex justify-center items-center fade-in delay-200">
+                <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Penulis sedang bekerja dengan buku" class="rounded-lg shadow-2xl object-cover h-[500px] w-[400px]">
             </div>
         </div>
     </section>
 
-    <!-- Problem Section (No Change) -->
-    <section class="py-20 bg-gray-50">
+    <!-- Problem Section --><section class="py-20 bg-gray-50">
         <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold text-blue-900 mb-6">Punya Naskah Brilian, Tapi Bingung?</h2>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-12">
+            <h2 class="text-3xl font-bold text-blue-900 mb-6 slide-up">Punya Naskah Brilian, Tapi Bingung?</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-12 slide-up delay-100">
                 Banyak penulis berbakat seperti Anda berhenti di tengah jalan karena masalah ini. Apakah Anda mengalaminya?
             </p>
             <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <div class="bg-white p-6 rounded-lg shadow-lg">
+                <div class="bg-white p-6 rounded-lg shadow-lg slide-up delay-200">
                     <div class="text-4xl mb-4">❌</div>
                     <h3 class="text-xl font-semibold mb-2 text-gray-800">Naskah Ditolak</h3>
                     <p class="text-gray-600">Sudah kirim ke banyak penerbit tapi selalu ditolak tanpa alasan yang jelas.</p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-lg">
+                <div class="bg-white p-6 rounded-lg shadow-lg slide-up delay-300">
                     <div class="text-4xl mb-4">💸</div>
                     <h3 class="text-xl font-semibold mb-2 text-gray-800">Biaya Mahal</h3>
                     <p class="text-gray-600">Diminta membayar biaya pracetak, editing, dan cetak yang sangat besar.</p>
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-lg">
+                <div class="bg-white p-6 rounded-lg shadow-lg slide-up delay-400">
                     <div class="text-4xl mb-4">⏳</div>
                     <h3 class="text-xl font-semibold mb-2 text-gray-800">Proses Rumit</h3>
                     <p class="text-gray-600">Proses penerbitan yang berbelit-belit, tidak transparan, dan memakan waktu berbulan-bulan.</p>
@@ -111,9 +147,8 @@
         </div>
     </section>
 
-    <!-- Solution Section (No Change) -->
-    <section class="py-20 bg-blue-800 text-white">
-        <div class="container mx-auto px-6 text-center">
+    <!-- Solution Section --><section class="py-20 bg-blue-800 text-white">
+        <div class="container mx-auto px-6 text-center fade-in">
             <h2 class="text-3xl font-bold mb-6">Amerta Media Hadir Sebagai Solusi!</h2>
             <p class="text-xl max-w-3xl mx-auto">
                 Sesuai moto kami, "Sahabat Penulis, Mitra Cerdas", kami berkomitmen menjadi partner terbaik Anda dalam mewujudkan karya. Kami hadir dengan proses yang <span class="font-bold text-yellow-400">MUDAH, CEPAT,</span> dan <span class="font-bold text-yellow-400">PROFESIONAL</span>.
@@ -121,48 +156,47 @@
         </div>
     </section>
 
-    <!-- Benefits Section (No Change) -->
-    <section id="layanan" class="py-20 bg-white">
+    <!-- Benefits Section --><section id="layanan" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-blue-900 text-center mb-16">Kenapa Menerbitkan Buku di Amerta Media?</h2>
+            <h2 class="text-3xl font-bold text-blue-900 text-center mb-16 slide-up">Kenapa Menerbitkan Buku di Amerta Media?</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-                <div class="flex items-start space-x-4">
-                    <div class="text-3xl pt-1">⚡️</div>
+                <div class="flex items-start space-x-4 fade-in delay-100">
+                    <div class="text-3xl pt-1 text-blue-600">🚀</div>
                     <div>
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">Proses Cepat & Mudah</h3>
                         <p class="text-gray-600">Kami pangkas birokrasi yang tidak perlu. Cukup kirim naskah, tim kami akan memandu Anda sampai terbit.</p>
                     </div>
                 </div>
-                <div class="flex items-start space-x-4">
-                    <div class="text-3xl pt-1">✅</div>
+                <div class="flex items-start space-x-4 fade-in delay-200">
+                    <div class="text-3xl pt-1 text-green-600">✅</div>
                     <div>
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">Gratis Biaya Terbit*</h3>
                         <p class="text-gray-600">Anda tidak perlu mengeluarkan uang sepeserpun untuk editing, layout, dan desain cover. (*S&K Berlaku)</p>
                     </div>
                 </div>
-                <div class="flex items-start space-x-4">
-                    <div class="text-3xl pt-1">📚</div>
+                <div class="flex items-start space-x-4 fade-in delay-300">
+                    <div class="text-3xl pt-1 text-indigo-600">📚</div>
                     <div>
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">ISBN Resmi & Legal</h3>
                         <p class="text-gray-600">Setiap buku yang terbit di Amerta Media akan mendapatkan nomor ISBN resmi dari Perpusnas.</p>
                     </div>
                 </div>
-                <div class="flex items-start space-x-4">
-                    <div class="text-3xl pt-1">🎨</div>
+                <div class="flex items-start space-x-4 fade-in delay-400">
+                    <div class="text-3xl pt-1 text-purple-600">🎨</div>
                     <div>
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">Desain Cover Profesional</h3>
                         <p class="text-gray-600">Tim desainer kami siap membuatkan cover buku yang menarik dan menjual sesuai keinginan Anda.</p>
                     </div>
                 </div>
-                <div class="flex items-start space-x-4">
-                    <div class="text-3xl pt-1">💰</div>
+                <div class="flex items-start space-x-4 fade-in delay-500">
+                    <div class="text-3xl pt-1 text-yellow-600">💰</div>
                     <div>
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">Royalti Menarik</h3>
                         <p class="text-gray-600">Dapatkan sistem royalti yang transparan dan kompetitif untuk setiap buku yang terjual.</p>
                     </div>
                 </div>
-                <div class="flex items-start space-x-4">
-                    <div class="text-3xl pt-1">🛒</div>
+                <div class="flex items-start space-x-4 fade-in delay-600">
+                    <div class="text-3xl pt-1 text-red-600">🛒</div>
                     <div>
                         <h3 class="text-xl font-semibold text-gray-800 mb-2">Bantuan Pemasaran & Penjualan</h3>
                         <p class="text-gray-600">Buku Anda akan kami pasarkan melalui website kami, media sosial, dan marketplace ternama.</p>
@@ -172,18 +206,16 @@
         </div>
     </section>
 
-    <!-- Pricing/Package Section (NEW) -->
-    <section id="paket" class="py-20 bg-gray-100">
+    <!-- Pricing/Package Section --><section id="paket" class="py-20 bg-gray-100">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-extrabold text-blue-900 text-center mb-6">Pilih Paket Penerbitan Sesuai Kebutuhan Anda</h2>
-            <p class="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-12">
+            <h2 class="text-4xl font-extrabold text-blue-900 text-center mb-6 slide-up">Pilih Paket Penerbitan Sesuai Kebutuhan Anda</h2>
+            <p class="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-12 slide-up delay-100">
                 Kami menyediakan berbagai paket penerbitan untuk naskah akademik (Skripsi, Tesis, Disertasi, Hasil Penelitian) hingga Paket Ajar.
             </p>
 
             <div class="grid lg:grid-cols-3 gap-8 items-stretch max-w-6xl mx-auto">
                 
-                <!-- Paket Ajar (Highlight) -->
-                <div class="price-card bg-white p-8 rounded-xl shadow-xl border-4 border-yellow-500 transform scale-105">
+                <!-- Paket Ajar (Highlight) --><div class="price-card bg-white p-8 rounded-xl shadow-xl border-4 border-yellow-500 transform scale-105 fade-in delay-200">
                     <p class="text-sm font-bold uppercase text-yellow-600 mb-2">Paling Populer</p>
                     <h3 class="text-3xl font-black text-blue-900 mb-2">PAKET AJAR</h3>
                     <p class="text-lg text-gray-500 mb-4">Untuk naskah siap terbit/modul pembelajaran.</p>
@@ -218,11 +250,9 @@
                     </a>
                 </div>
 
-                <!-- Kolom Paket Akademik (Skripsi, Tesis, Hasil Penelitian) -->
-                <div class="lg:col-span-2 grid md:grid-cols-2 gap-8">
+                <!-- Kolom Paket Akademik (Skripsi, Tesis, Hasil Penelitian) --><div class="lg:col-span-2 grid md:grid-cols-2 gap-8">
                     
-                    <!-- Paket Skripsi -->
-                    <div class="price-card bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+                    <!-- Paket Skripsi --><div class="price-card bg-white p-8 rounded-xl shadow-lg border border-gray-200 fade-in delay-300">
                         <h3 class="text-2xl font-black text-blue-900 mb-2">SKRIPSI Jadi Buku</h3>
                         <p class="text-lg text-gray-500 mb-4">Untuk tugas akhir S1/setara.</p>
                         <div class="text-4xl font-extrabold text-blue-800 mb-4">
@@ -247,8 +277,7 @@
                         </a>
                     </div>
                     
-                    <!-- Paket Tesis/Hasil Penelitian (Digabung, Harga Sama) -->
-                    <div class="price-card bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+                    <!-- Paket Tesis/Hasil Penelitian (Digabung, Harga Sama) --><div class="price-card bg-white p-8 rounded-xl shadow-lg border border-gray-200 fade-in delay-400">
                         <h3 class="text-2xl font-black text-blue-900 mb-2">TESIS/HASIL PENELITIAN</h3>
                         <p class="text-lg text-gray-500 mb-4">Untuk tugas akhir S2/setara atau hasil riset.</p>
                         <div class="text-4xl font-extrabold text-blue-800 mb-4">
@@ -273,8 +302,7 @@
                         </a>
                     </div>
 
-                    <!-- Paket Disertasi (Di luar grid 3, agar mudah diatur) -->
-                    <div class="md:col-span-2 price-card bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+                    <!-- Paket Disertasi --><div class="md:col-span-2 price-card bg-white p-8 rounded-xl shadow-lg border border-gray-200 fade-in delay-500">
                         <h3 class="text-2xl font-black text-blue-900 mb-2">DISERTASI Jadi Buku</h3>
                         <p class="text-lg text-gray-500 mb-4">Untuk tugas akhir S3/setara.</p>
                         <div class="text-4xl font-extrabold text-blue-800 mb-4">
@@ -298,35 +326,83 @@
                 </div>
             </div>
 
-            <p class="text-center text-sm text-gray-500 mt-10">
+            <p class="text-center text-sm text-gray-500 mt-10 fade-in delay-600">
                 *Catatan: Harga sudah termasuk layanan pracetak (editing, layout, desain cover). Harga belum termasuk ongkir, cetak warna, dan cetak halaman tambahan jika melebihi batas maksimal. Royalti 10% dari penjualan buku berlaku untuk penulis.
             </p>
         </div>
     </section>
 
-    <!-- Process Section (No Change) -->
-    <section class="py-20 bg-gray-50">
+    <!-- Gemini Tools Section --><section id="gemini-tools" class="py-20 bg-blue-50">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-blue-900 text-center mb-16">Proses Terbit Mudah dalam 4 Langkah</h2>
+            <h2 class="text-4xl font-extrabold text-blue-900 text-center mb-6 slide-up">✨ Coba Gratis: Tools AI Khusus Penulis</h2>
+            <p class="text-lg text-gray-700 text-center max-w-4xl mx-auto mb-12 slide-up delay-100">
+                Gunakan kecerdasan buatan dari Gemini untuk membantu Anda memulai proses penerbitan, mulai dari merumuskan judul hingga membuat materi promosi.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Tool 1: Title and Description Generator --><div class="bg-white p-6 rounded-xl shadow-lg price-card fade-in delay-200">
+                    <h3 class="text-2xl font-bold text-blue-900 mb-4">✨ Generator Judul & Deskripsi Pemasaran</h3>
+                    <p class="text-gray-600 mb-4">Masukkan topik naskah Anda di bawah (misalnya: 'Panduan menabung saham untuk pemula di bawah 30 tahun').</p>
+                    <textarea id="topicInput" rows="3" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 mb-4" placeholder="Contoh: Manfaat meditasi untuk mengurangi stres pada pekerja kantoran"></textarea>
+                    
+                    <button id="generateTitleButton" class="cta-button bg-yellow-500 text-blue-900 font-bold py-3 px-6 rounded-full flex items-center justify-center space-x-2 hover:bg-yellow-400">
+                        <span id="titleLoading" class="hidden loading-spinner"></span>
+                        <span id="titleButtonText">Hasilkan Ide Judul & Deskripsi ✨</span>
+                    </button>
+
+                    <div id="titleOutput" class="mt-6 p-4 bg-gray-50 border rounded-lg price-features">
+                        <p class="font-semibold text-gray-800 mb-2">Hasil Gemini:</p>
+                        <p id="titleResultText" class="text-gray-600 italic">Judul dan deskripsi akan muncul di sini.</p>
+                    </div>
+                </div>
+
+                <!-- Tool 2: Social Media Content Generator --><div class="bg-white p-6 rounded-xl shadow-lg price-card fade-in delay-300">
+                    <h3 class="text-2xl font-bold text-blue-900 mb-4">✨ Ide Konten Promosi Media Sosial</h3>
+                    <p class="text-gray-600 mb-4">Pilih paket penerbitan yang Anda minati untuk mendapatkan ide promosi yang spesifik.</p>
+                    
+                    <select id="packageSelect" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500 mb-4">
+                        <option value="Paket Ajar">Paket Ajar (Modul/Siap Terbit)</option>
+                        <option value="Skripsi Jadi Buku">Skripsi Jadi Buku (S1)</option>
+                        <option value="Tesis/Hasil Penelitian">Tesis/Hasil Penelitian (S2/Riset)</option>
+                        <option value="Disertasi Jadi Buku">Disertasi Jadi Buku (S3)</option>
+                    </select>
+
+                    <button id="generatePromoButton" class="cta-button bg-blue-500 text-white font-bold py-3 px-6 rounded-full flex items-center justify-center space-x-2 hover:bg-blue-600">
+                        <span id="promoLoading" class="hidden loading-spinner"></span>
+                        <span id="promoButtonText">Dapatkan Ide Promosi ✨</span>
+                    </button>
+
+                    <div id="promoOutput" class="mt-6 p-4 bg-gray-50 border rounded-lg price-features">
+                        <p class="font-semibold text-gray-800 mb-2">Ide Konten:</p>
+                        <p id="promoResultText" class="text-gray-600 italic">Ide konten promosi (caption, hashtag) akan muncul di sini.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section --><section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-blue-900 text-center mb-16 slide-up">Proses Terbit Mudah dalam 4 Langkah</h2>
             <div class="relative">
                 <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-blue-300 -translate-y-1/2"></div>
                 <div class="relative grid md:grid-cols-4 gap-12">
-                    <div class="bg-white p-6 rounded-lg shadow-lg text-center z-10">
+                    <div class="bg-white p-6 rounded-lg shadow-lg text-center z-10 fade-in delay-100">
                         <div class="bg-blue-800 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">1</div>
                         <h3 class="text-lg font-semibold mb-2">Kirim Naskah</h3>
                         <p class="text-sm text-gray-600">Kirimkan naskah lengkap Anda melalui email atau form konsultasi.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-lg text-center z-10">
+                    <div class="bg-white p-6 rounded-lg shadow-lg text-center z-10 fade-in delay-200">
                         <div class="bg-blue-800 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">2</div>
                         <h3 class="text-lg font-semibold mb-2">Review & Editing</h3>
                         <p class="text-sm text-gray-600">Tim editor kami akan me-review dan melakukan proses editing naskah Anda.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-lg text-center z-10">
+                    <div class="bg-white p-6 rounded-lg shadow-lg text-center z-10 fade-in delay-300">
                         <div class="bg-blue-800 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">3</div>
                         <h3 class="text-lg font-semibold mb-2">Desain & Layout</h3>
                         <p class="text-sm text-gray-600">Proses layout isi buku dan pembuatan desain cover yang memikat.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-lg text-center z-10">
+                    <div class="bg-white p-6 rounded-lg shadow-lg text-center z-10 fade-in delay-400">
                         <div class="bg-blue-800 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">4</div>
                         <h3 class="text-lg font-semibold mb-2">Terbit & Pemasaran</h3>
                         <p class="text-sm text-gray-600">Buku Anda resmi terbit, mendapatkan ISBN, dan masuk ke jaringan penjualan kami.</p>
@@ -336,59 +412,65 @@
         </div>
     </section>
     
-    <!-- Testimonials Section (Moved) -->
-    <section id="testimoni" class="py-20 bg-blue-900 text-white">
+    <!-- Testimonials Section --><section id="testimoni" class="py-20 bg-blue-900 text-white">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-16">Apa Kata Para Penulis Kami?</h2>
+            <h2 class="text-3xl font-bold text-center mb-16 slide-up">Apa Kata Para Penulis Kami?</h2>
             <div class="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-                <div class="bg-white text-gray-800 p-8 rounded-lg shadow-xl">
-                    <div class="text-yellow-500 text-2xl mb-4">⭐⭐⭐⭐⭐</div>
-                    <p class="text-lg italic mb-6">"Prosesnya benar-benar di luar ekspektasi. Sangat cepat dan timnya ramah. Dari naskah mentah sampai jadi buku, saya dibimbing penuh. Terima kasih Amerta Media!"</p>
-                    <div class="font-bold text-blue-900">- Budi Santoso</div>
-                    <div class="text-sm text-gray-600">Penulis Buku "Jejak Langkah"</div>
+                <div class="bg-white text-gray-800 p-8 rounded-lg shadow-xl fade-in delay-100">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=2788&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Foto Budi Santoso" class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <div class="text-yellow-500 text-xl">⭐⭐⭐⭐⭐</div>
+                            <div class="font-bold text-blue-900">- Budi Santoso</div>
+                            <div class="text-sm text-gray-600">Penulis Buku "Jejak Langkah"</div>
+                        </div>
+                    </div>
+                    <p class="text-lg italic mb-2">"Prosesnya benar-benar di luar ekspektasi. Sangat cepat dan timnya ramah. Dari naskah mentah sampai jadi buku, saya dibimbing penuh. Terima kasih Amerta Media!"</p>
                 </div>
-                <div class="bg-white text-gray-800 p-8 rounded-lg shadow-xl">
-                    <div class="text-yellow-500 text-2xl mb-4">⭐⭐⭐⭐⭐</div>
-                    <p class="text-lg italic mb-6">"Sebagai dosen, saya butuh penerbit yang kredibel untuk buku ajar. Amerta Media memberikan layanan profesional, ISBN cepat keluar, dan kualitas cetaknya sangat baik."</p>
-                    <div class="font-bold text-blue-900">- Dr. Rina Puspita, M.Pd.</div>
-                    <div class="text-sm text-gray-600">Penulis Buku "Metodologi Penelitian"</div>
+                <div class="bg-white text-gray-800 p-8 rounded-lg shadow-xl fade-in delay-200">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=2861&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Foto Dr. Rina Puspita" class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <div class="text-yellow-500 text-xl">⭐⭐⭐⭐⭐</div>
+                            <div class="font-bold text-blue-900">- Dr. Rina Puspita, M.Pd.</div>
+                            <div class="text-sm text-gray-600">Penulis Buku "Metodologi Penelitian"</div>
+                        </div>
+                    </div>
+                    <p class="text-lg italic mb-2">"Sebagai dosen, saya butuh penerbit yang kredibel untuk buku ajar. Amerta Media memberikan layanan profesional, ISBN cepat keluar, dan kualitas cetaknya sangat baik."</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Book Gallery Section (No Change) -->
-    <section class="py-20 bg-white">
+    <!-- Book Gallery Section --><section class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-blue-900 text-center mb-16">Buku yang Telah Terbit Bersama Kami</h2>
+            <h2 class="text-3xl font-bold text-blue-900 text-center mb-16 slide-up">Buku yang Telah Terbit Bersama Kami</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <img src="https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+1" onerror="this.onerror=null; this.src='https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+1';" alt="Buku Terbit 1" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                <img src="https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+2" onerror="this.onerror=null; this.src='https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+2';" alt="Buku Terbit 2" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                <img src="https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+3" onerror="this.onerror=null; this.src='https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+3';" alt="Buku Terbit 3" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                <img src="https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+4" onerror="this.onerror=null; this.src='https://placehold.co/300x400/3B82F6/FFFFFF?text=Judul+Buku+4';" alt="Buku Terbit 4" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                <img src="https://images.unsplash.com/photo-1549673994-4d1a3c5a7b8e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Buku Terbit 1" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 object-cover h-[400px] w-[300px] fade-in delay-100">
+                <img src="https://images.unsplash.com/photo-1550972412-f17ee03666b6?q=80&w=2864&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Buku Terbit 2" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 object-cover h-[400px] w-[300px] fade-in delay-200">
+                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd84?q=80&w=2856&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Buku Terbit 3" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 object-cover h-[400px] w-[300px] fade-in delay-300">
+                <img src="https://images.unsplash.com/photo-1574693155700-111162483582?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Buku Terbit 4" class="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 object-cover h-[400px] w-[300px] fade-in delay-400">
             </div>
         </div>
     </section>
 
-    <!-- Final CTA Section (No Change) -->
-    <section id="cta-final" class="bg-yellow-500 py-20">
-        <div class="container mx-auto px-6 text-center">
+    <!-- Final CTA Section --><section id="cta-final" class="bg-yellow-500 py-20">
+        <div class="container mx-auto px-6 text-center fade-in">
             <h2 class="text-4xl font-extrabold text-blue-900 mb-6">Jangan Biarkan Naskah Anda Hanya Tersimpan di Laptop!</h2>
             <p class="text-lg text-blue-800 max-w-2xl mx-auto mb-10">
                 Tim kami siap membantu Anda. Ambil langkah pertama untuk menjadi penulis profesional sekarang juga.
             </p>
-            <a href="https://api.whatsapp.com/send?phone=628123456789&text=Halo%20Amerta%20Media,%20saya%20siap%20menerbitkan%20buku%20saya!" target="_blank" class="cta-button inline-block bg-blue-900 text-white font-bold text-xl py-5 px-14 rounded-full hover:bg-blue-800">
+            <a href="https://api.whatsapp.com/send/?phone=6281356333324&text=Halo%20Amerta%20Media,%20saya%20tertarik%20untuk%20menerbitkan%20buku." target="_blank" class="cta-button inline-block bg-blue-900 text-white font-bold text-xl py-5 px-14 rounded-full hover:bg-blue-800">
                 Kirim Naskah Sekarang (via WA)
             </a>
         </div>
     </section>
 
-    <!-- FAQ Section (No Change) -->
-    <section id="faq" class="py-20 bg-white">
+    <!-- FAQ Section --><section id="faq" class="py-20 bg-white">
         <div class="container mx-auto px-6 max-w-3xl">
-            <h2 class="text-3xl font-bold text-blue-900 text-center mb-16">Pertanyaan yang Sering Diajukan (FAQ)</h2>
+            <h2 class="text-3xl font-bold text-blue-900 text-center mb-16 slide-up">Pertanyaan yang Sering Diajukan (FAQ)</h2>
             <div class="space-y-4">
-                <details class="group border rounded-lg p-4 cursor-pointer" open>
+                <details class="group border rounded-lg p-4 cursor-pointer fade-in delay-100" open>
                     <summary class="flex justify-between items-center font-semibold text-lg text-gray-800 group-hover:text-blue-800">
                         Apakah benar-benar gratis?
                         <span class="text-blue-800 group-open:rotate-180 transition-transform duration-300">▼</span>
@@ -397,7 +479,7 @@
                         Benar. Untuk naskah yang lolos seleksi tim editor kami, semua biaya pracetak (editing, layout, desain cover) dan pengurusan ISBN ditanggung oleh Amerta Media. Anda tidak perlu membayar apapun.
                     </div>
                 </details>
-                <details class="group border rounded-lg p-4 cursor-pointer">
+                <details class="group border rounded-lg p-4 cursor-pointer fade-in delay-200">
                     <summary class="flex justify-between items-center font-semibold text-lg text-gray-800 group-hover:text-blue-800">
                         Berapa lama proses penerbitannya?
                         <span class="text-blue-800 group-open:rotate-180 transition-transform duration-300">▼</span>
@@ -406,7 +488,7 @@
                         Proses penerbitan kami relatif cepat. Sejak naskah kami terima dan dinyatakan lolos seleksi, proses editing, layout, hingga siap cetak biasanya memakan waktu 1-2 bulan, tergantung kompleksitas naskah.
                     </div>
                 </details>
-                <details class="group border rounded-lg p-4 cursor-pointer">
+                <details class="group border rounded-lg p-4 cursor-pointer fade-in delay-300">
                     <summary class="flex justify-between items-center font-semibold text-lg text-gray-800 group-hover:text-blue-800">
                         Bagaimana sistem royalti-nya?
                         <span class="text-blue-800 group-open:rotate-180 transition-transform duration-300">▼</span>
@@ -415,7 +497,7 @@
                         Kami menawarkan sistem royalti yang kompetitif dan transparan. Besaran royalti akan dituangkan dalam perjanjian (MoU) resmi sebelum buku diterbitkan. Laporan penjualan diberikan secara berkala.
                     </div>
                 </details>
-                <details class="group border rounded-lg p-4 cursor-pointer">
+                <details class="group border rounded-lg p-4 cursor-pointer fade-in delay-400">
                     <summary class="flex justify-between items-center font-semibold text-lg text-gray-800 group-hover:text-blue-800">
                         Apakah naskah saya pasti diterima?
                         <span class="text-blue-800 group-open:rotate-180 transition-transform duration-300">▼</span>
@@ -428,8 +510,7 @@
         </div>
     </section>
 
-    <!-- Footer (No Change) -->
-    <footer class="bg-blue-900 text-white py-10">
+    <!-- Footer --><footer class="bg-blue-900 text-white py-10">
         <div class="container mx-auto px-6 text-center">
             <p>&copy; 2025 Amerta Media. Hak Cipta Dilindungi.</p>
             <p class="text-sm text-blue-200">Sahabat Penulis, Mitra Cerdas.</p>
@@ -437,6 +518,121 @@
     </footer>
 
     <script>
+        const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=";
+        // GANTI DENGAN API KEY ANDA YANG VALID
+        const API_KEY = "YOUR_GEMINI_API_KEY_HERE"; 
+
+        async function fetchGeminiContent(prompt, systemPrompt) {
+            // Check if API_KEY is set
+            if (API_KEY === "YOUR_GEMINI_API_KEY_HERE" || !API_KEY) {
+                return 'Harap masukkan Gemini API Key Anda yang valid di dalam kode JavaScript.';
+            }
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            for (let i = 0; i < 3; i++) {
+                try {
+                    const response = await fetch(`${API_URL}${API_KEY}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        const text = result.candidates?.[0]?.content?.parts?.[0]?.text || 'Gagal menghasilkan konten. Coba lagi.';
+                        return text;
+                    } else if (response.status === 429 && i < 2) {
+                        const delay = Math.pow(2, i) * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        continue;
+                    } else {
+                        // Attempt to parse error message from API response
+                        const errorData = await response.json();
+                        const errorMessage = errorData.error?.message || `API returned status ${response.status}`;
+                        throw new Error(`Gemini API error: ${errorMessage}`);
+                    }
+                } catch (error) {
+                    console.error("Gemini API error:", error);
+                    return `Terjadi kesalahan: ${error.message}. Pastikan API Key Anda benar dan kuota masih tersedia.`;
+                }
+            }
+            return 'Gagal setelah beberapa kali percobaan. Silakan coba sebentar lagi.';
+        }
+
+        // --- Fitur 1: Judul & Deskripsi Generator ---
+        const topicInput = document.getElementById('topicInput');
+        const generateTitleButton = document.getElementById('generateTitleButton');
+        const titleButtonText = document.getElementById('titleButtonText');
+        const titleLoading = document.getElementById('titleLoading');
+        const titleResultText = document.getElementById('titleResultText');
+
+        generateTitleButton.addEventListener('click', async () => {
+            const topic = topicInput.value.trim();
+            if (topic.length < 10) {
+                titleResultText.textContent = 'Masukkan topik naskah yang lebih detail (minimal 10 karakter).';
+                return;
+            }
+
+            // UI Feedback
+            generateTitleButton.disabled = true;
+            titleButtonText.textContent = 'Memproses...';
+            titleLoading.classList.remove('hidden');
+            titleResultText.textContent = 'Sedang mencari ide judul dan deskripsi...';
+
+            const systemPrompt = "Anda adalah Copywriter dan Penulis Profesional untuk penerbit buku. Tugas Anda adalah menghasilkan 3 opsi judul buku yang menarik dan 1 deskripsi singkat (blurb) yang memikat untuk sebuah buku bertopik di bidang non-fiksi/akademik. Output harus dalam Bahasa Indonesia, diformat sebagai daftar berpoin (Markdown) untuk judul dan kemudian deskripsi di bawahnya. Judul harus menarik perhatian pembaca yang dituju.";
+            const userQuery = `Topik naskah: ${topic}`;
+
+            const result = await fetchGeminiContent(userQuery, systemPrompt);
+
+            // Update UI
+            titleResultText.textContent = result;
+            titleLoading.classList.add('hidden');
+            titleButtonText.textContent = 'Hasilkan Ide Judul & Deskripsi ✨';
+            generateTitleButton.disabled = false;
+        });
+
+        // --- Fitur 2: Promo Content Generator ---
+        const packageSelect = document.getElementById('packageSelect');
+        const generatePromoButton = document.getElementById('generatePromoButton');
+        const promoButtonText = document.getElementById('promoButtonText');
+        const promoLoading = document.getElementById('promoLoading');
+        const promoResultText = document.getElementById('promoResultText');
+
+        generatePromoButton.addEventListener('click', async () => {
+            const selectedPackage = packageSelect.value;
+            const topic = topicInput.value.trim();
+            
+            if (topic.length < 10) {
+                promoResultText.textContent = 'Silakan isi topik naskah di bagian atas terlebih dahulu.';
+                return;
+            }
+
+            // UI Feedback
+            generatePromoButton.disabled = true;
+            promoButtonText.textContent = 'Memproses...';
+            promoLoading.classList.remove('hidden');
+            promoResultText.textContent = `Sedang membuat ide promosi untuk paket ${selectedPackage}...`;
+
+            const systemPrompt = "Anda adalah Spesialis Pemasaran Digital untuk penerbit buku. Tugas Anda adalah menghasilkan 3 ide singkat untuk konten media sosial (caption dan hashtag) yang menarik dan sesuai dengan topik buku. Target audiens Anda adalah pembaca Indonesia. Pastikan ide konten berorientasi pada nilai buku, bukan hanya iklan penerbit. Output harus dalam Bahasa Indonesia dan diformat sebagai daftar berpoin (Markdown).";
+            const userQuery = `Buatkan 3 ide konten media sosial untuk buku dengan topik: '${topic}'. Buku ini diterbitkan menggunakan '${selectedPackage}'.`;
+
+            const result = await fetchGeminiContent(userQuery, systemPrompt);
+
+            // Update UI
+            promoResultText.textContent = result;
+            promoLoading.classList.add('hidden');
+            promoButtonText.textContent = 'Dapatkan Ide Promosi ✨';
+            generatePromoButton.disabled = false;
+        });
+
+
+        // Smooth scroll implementation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -454,9 +650,29 @@
                 }
             });
         });
+
+        // Intersection Observer for scroll animations
+        const animateOnScroll = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        };
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the item is visible
+        };
+
+        const observer = new IntersectionObserver(animateOnScroll, observerOptions);
+
+        document.querySelectorAll('.fade-in, .slide-up').forEach(element => {
+            observer.observe(element);
+        });
     </script>
 
 </body>
 </html>
-
-
